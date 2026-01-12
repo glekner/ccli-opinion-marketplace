@@ -1,0 +1,23 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "cursor-opinion-marketplace",
+  "version": "1.0.0",
+  "description": "Private marketplace for Cursor Opinion plugin",
+  "owner": {
+    "name": "Gilad Lekner",
+    "email": "gilad.lekner@wiz.io"
+  },
+  "plugins": [
+    {
+      "name": "cursor-opinion",
+      "description": "Delegate questions to Cursor agent for a second opinion with full conversation context",
+      "version": "1.0.0",
+      "author": {
+        "name": "Gilad Lekner",
+        "email": "gilad.lekner@wiz.io"
+      },
+      "source": "./cursor-opinion",
+      "category": "productivity"
+    }
+  ]
+}

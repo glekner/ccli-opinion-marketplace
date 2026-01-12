@@ -1,0 +1,9 @@
+{
+  "name": "cursor-opinion",
+  "version": "1.0.0",
+  "description": "Delegate questions to Cursor agent for a second opinion with full conversation context",
+  "author": {
+    "name": "Gilad Lekner",
+    "email": "gilad.lekner@wiz.io"
+  }
+}
