@@ -4,11 +4,12 @@ A private Claude Code plugin that lets you get a second opinion from Cursor AI d
 
 ## Features
 
-- `/ask-cursor` command to trigger Cursor consultation
+- `/ask-cursor [context]` - Get Cursor's opinion on the current topic (optional additional context)
+- `/delegate [task]` - Have Cursor make code changes in your project directory
+- `/review` - Send git diff to Cursor for a concise code review
 - Automatically gathers conversation context and relevant files
-- Creates a comprehensive prompt for Cursor with full context
-- Returns Cursor's response as additional input for Claude to consider
-- Claude synthesizes both perspectives for better recommendations
+- Creates comprehensive prompts for Cursor with full context
+- Claude synthesizes both AI perspectives for better recommendations
 
 ## Prerequisites
 
@@ -34,19 +35,34 @@ Or add it to your Claude Code settings.
 
 ## Usage
 
-During any conversation with Claude, simply type:
+### `/ask-cursor [additional context]`
+
+Get Cursor's opinion on the current topic:
 ```
 /ask-cursor
+/ask-cursor what about performance implications?
 ```
 
-Claude will:
-1. Gather all relevant context from your conversation
-2. Create a comprehensive prompt for Cursor
-3. Call the Cursor agent CLI
-4. Present Cursor's response
-5. Synthesize both AI perspectives for you
+Claude will gather context, consult Cursor, and synthesize both perspectives.
 
-You can also ask naturally: "Can you get Cursor's opinion on this?"
+### `/delegate [task description]`
+
+Have Cursor make code changes in your project:
+```
+/delegate add input validation to the login form
+/delegate refactor the API handlers to use async/await
+```
+
+Cursor runs with write permissions in your current working directory.
+
+### `/review`
+
+Get a code review of your uncommitted changes:
+```
+/review
+```
+
+Cursor reviews your git diff and provides concise, actionable feedback.
 
 ## Configuration
 
@@ -65,12 +81,16 @@ cursor-opinion/
 ├── .claude-plugin/
 │   └── plugin.json           # Plugin manifest
 ├── commands/
-│   └── ask-cursor.md         # /ask-cursor slash command
+│   ├── ask-cursor.md         # /ask-cursor slash command
+│   ├── delegate.md           # /delegate slash command
+│   └── review.md             # /review slash command
 ├── skills/
 │   └── cursor-opinion/
 │       └── SKILL.md          # Skill instructions
 ├── scripts/
-│   └── ask-cursor.sh         # Cursor CLI wrapper script
+│   ├── ask-cursor.sh         # Cursor CLI wrapper for opinions
+│   ├── delegate-cursor.sh    # Cursor CLI wrapper for code changes
+│   └── review-cursor.sh      # Cursor CLI wrapper for code review
 └── README.md
 ```
 
@@ -83,4 +103,4 @@ cursor-opinion/
 - Add `export CURSOR_API_KEY='...'` to your shell profile and restart your terminal
 
 **Script permission denied**
-- Run: `chmod +x ~/.claude/plugins/cursor-opinion/scripts/ask-cursor.sh`
+- Run: `chmod +x ~/.claude/plugins/cursor-opinion/scripts/*.sh`

@@ -1,13 +1,20 @@
 # Cursor Opinion Skill
 
-This skill allows you to get a second opinion from Cursor AI agent on any topic during your conversation with Claude.
+This skill allows you to interact with Cursor AI agent during your conversation with Claude.
+
+## Available Commands
+
+- `/ask-cursor [context]` - Get Cursor's opinion on the current topic
+- `/delegate [task]` - Have Cursor make code changes in your project
+- `/review` - Send git diff to Cursor for code review
 
 ## When to Use
 
 Use this skill when the user:
 - Explicitly asks for Cursor's opinion or a "second opinion"
 - Wants to compare approaches or get an alternative perspective
-- Triggers the `/ask-cursor` command
+- Triggers the `/ask-cursor`, `/delegate`, or `/review` commands
+- Wants Cursor to make changes or review their code
 
 ## How to Execute
 

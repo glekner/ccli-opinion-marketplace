@@ -1,5 +1,6 @@
 ---
 description: Get Cursor AI's opinion on the current topic or question
+argument-hint: "[additional context or specific question]"
 allowed-tools:
   - Bash
   - Read
@@ -10,6 +11,10 @@ allowed-tools:
 # Ask Cursor for Opinion
 
 The user wants to get Cursor AI's perspective as a second opinion.
+
+## User's Additional Context
+
+$ARGUMENTS
 
 ## Important: This is a SLOW operation
 
@@ -25,6 +30,7 @@ When calling Bash, you MUST set a long timeout:
    - What code or files are relevant
    - What approaches have been considered
    - What the user's constraints and preferences are
+   - If additional context was provided above (in "User's Additional Context"), prioritize that as the specific question or focus area
 
 2. **Build a Comprehensive Prompt**: Create a detailed prompt for Cursor that includes all relevant context. The prompt should be self-contained so Cursor can understand the situation without seeing our conversation.
 
