@@ -44,11 +44,11 @@ if [ -n "$CODEX_MODEL" ]; then
     CMD_ARGS+=("--model" "$CODEX_MODEL")
 fi
 
-# Run in full-auto mode (allows file modifications)
-CMD_ARGS+=("--full-auto")
+# Use yolo mode - no sandbox, no approval prompts, fully non-interactive
+CMD_ARGS+=("--yolo")
 
 # Add the prompt
 CMD_ARGS+=("$PROMPT")
 
-# Call codex in non-interactive exec mode with write permissions
+# Call codex in non-interactive exec mode with full access
 codex "${CMD_ARGS[@]}"

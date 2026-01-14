@@ -57,11 +57,11 @@ if [ -n "$CODEX_MODEL" ]; then
     CMD_ARGS+=("--model" "$CODEX_MODEL")
 fi
 
-# Run in read-only sandbox mode (no file modifications)
-CMD_ARGS+=("--sandbox" "read-only")
+# Use yolo mode for non-interactive execution (no approval prompts)
+CMD_ARGS+=("--yolo")
 
 # Add the prompt
 CMD_ARGS+=("$REVIEW_PROMPT")
 
-# Call codex in non-interactive exec mode (read-only)
+# Call codex in non-interactive exec mode
 codex "${CMD_ARGS[@]}"
