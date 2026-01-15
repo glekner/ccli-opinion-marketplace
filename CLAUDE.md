@@ -9,7 +9,7 @@ This is a Claude Code plugin marketplace repository containing the **cursor-opin
 ## Repository Structure
 
 ```
-cursor-opinion-marketplace/
+ccli-opinion-marketplace/
 ├── cursor-opinion/           # The plugin package
 │   ├── .claude-plugin/
 │   │   └── plugin.json       # Plugin manifest (name, version, description)
@@ -61,8 +61,8 @@ cursor-opinion-marketplace/
 
 ```bash
 # Add the marketplace
-/plugin marketplace add glekner/cursor-opinion-marketplace
+/plugin marketplace add glekner/ccli-opinion-marketplace
 
 # Install the plugin
-/plugin install cursor-opinion@cursor-opinion-marketplace
+/plugin install cursor-opinion@ccli-opinion-marketplace
 ```

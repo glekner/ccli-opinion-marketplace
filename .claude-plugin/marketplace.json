@@ -1,6 +1,6 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "cursor-opinion-marketplace",
+  "name": "ccli-opinion-marketplace",
   "version": "1.3.0",
   "description": "Private marketplace for AI second opinion plugins (Cursor, Codex)",
   "owner": {

@@ -6,11 +6,11 @@ A private Claude Code plugin marketplace containing plugins for getting second o
 
 ```bash
 # Add the marketplace
-/plugin marketplace add glekner/cursor-opinion-marketplace
+/plugin marketplace add glekner/ccli-opinion-marketplace
 
 # Install a plugin
-/plugin install cursor-opinion@cursor-opinion-marketplace
-/plugin install codex-opinion@cursor-opinion-marketplace
+/plugin install cursor-opinion@ccli-opinion-marketplace
+/plugin install codex-opinion@ccli-opinion-marketplace
 ```
 
 ## Plugins
