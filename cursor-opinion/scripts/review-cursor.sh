@@ -2,11 +2,10 @@
 #
 # review-cursor.sh - Get Cursor's code review of git changes
 #
-# Usage: echo "diff content" | ./review-cursor.sh
-#    or: ./review-cursor.sh "diff content"
+# Usage: ./review-cursor.sh [workspace-path]
 #
 # Environment variables (optional):
-#   CURSOR_MODEL       - Model to use (default: gpt-5.2-codex)
+#   CURSOR_MODEL - Model to use (default: gpt-5.2-codex)
 #
 
 set -e
@@ -14,17 +13,8 @@ set -e
 # Configuration with defaults
 CURSOR_MODEL="${CURSOR_MODEL:-gpt-5.2-codex}"
 
-# Get diff from argument or stdin
-if [ -n "$1" ]; then
-    DIFF_CONTENT="$1"
-else
-    DIFF_CONTENT=$(cat)
-fi
-
-if [ -z "$DIFF_CONTENT" ]; then
-    echo "Error: No diff content provided" >&2
-    exit 1
-fi
+# Get workspace from argument or use current directory
+WORKSPACE="${1:-$(pwd)}"
 
 # Check if cursor agent CLI is available
 if ! command -v agent &> /dev/null; then
@@ -32,8 +22,10 @@ if ! command -v agent &> /dev/null; then
     exit 1
 fi
 
-# Build the review prompt
-REVIEW_PROMPT="You are a senior code reviewer. Please review the following git diff and provide a concise, human-readable code review.
+# Build the review prompt - let Cursor read files itself
+REVIEW_PROMPT="You are a senior code reviewer. Review the uncommitted changes in this repository.
+
+Run \`git diff HEAD\` to see the changes, then review them.
 
 Focus on:
 - Potential bugs or issues
@@ -41,18 +33,13 @@ Focus on:
 - Security concerns
 - Suggestions for improvement
 
-Be direct and constructive. Skip obvious or trivial issues. Keep your review concise and actionable.
+You can read any files to understand context around the changes.
 
-## Git Diff
+Be direct and constructive. Skip obvious or trivial issues. Keep your review concise and actionable."
 
-\`\`\`diff
-$DIFF_CONTENT
-\`\`\`
-
-Provide your code review:"
-
-# Call cursor agent in READ-ONLY mode (no --force, no --sandbox disabled)
+# Call cursor agent with workspace access but READ-ONLY (no --force, no --sandbox disabled)
 agent -p "$REVIEW_PROMPT" \
     --model "$CURSOR_MODEL" \
     --output-format text \
+    --workspace "$WORKSPACE" \
     --approve-mcps

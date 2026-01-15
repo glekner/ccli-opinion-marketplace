@@ -2,8 +2,7 @@
 #
 # review-codex.sh - Get Codex's code review of git changes
 #
-# Usage: echo "diff content" | ./review-codex.sh
-#    or: ./review-codex.sh "diff content"
+# Usage: ./review-codex.sh [workspace-path]
 #
 # Environment variables (optional):
 #   CODEX_MODEL - Model to use (default: gpt-5.2-high)
@@ -14,17 +13,8 @@ set -e
 # Configuration with defaults
 CODEX_MODEL="${CODEX_MODEL:-gpt-5.2-high}"
 
-# Get diff from argument or stdin
-if [ -n "$1" ]; then
-    DIFF_CONTENT="$1"
-else
-    DIFF_CONTENT=$(cat)
-fi
-
-if [ -z "$DIFF_CONTENT" ]; then
-    echo "Error: No diff content provided" >&2
-    exit 1
-fi
+# Get workspace from argument or use current directory
+WORKSPACE="${1:-$(pwd)}"
 
 # Check if codex CLI is available
 if ! command -v codex &> /dev/null; then
@@ -33,8 +23,13 @@ if ! command -v codex &> /dev/null; then
     exit 1
 fi
 
-# Build the review prompt
-REVIEW_PROMPT="You are a senior code reviewer. Please review the following git diff and provide a concise, human-readable code review.
+# Change to workspace directory so Codex operates there
+cd "$WORKSPACE"
+
+# Build the review prompt - let Codex read files itself
+REVIEW_PROMPT="You are a senior code reviewer. Review the uncommitted changes in this repository.
+
+Run \`git diff HEAD\` to see the changes, then review them.
 
 Focus on:
 - Potential bugs or issues
@@ -42,27 +37,15 @@ Focus on:
 - Security concerns
 - Suggestions for improvement
 
-Be direct and constructive. Skip obvious or trivial issues. Keep your review concise and actionable.
+You can read any files to understand context around the changes.
 
-## Git Diff
+Be direct and constructive. Skip obvious or trivial issues. Keep your review concise and actionable."
 
-\`\`\`diff
-$DIFF_CONTENT
-\`\`\`
-
-Provide your code review:"
-
-# Build command args
+# Build command args - use read-only sandbox for reviews
 CMD_ARGS=("exec")
-
-# Add model
 CMD_ARGS+=("--model" "$CODEX_MODEL")
-
-# Use yolo mode for non-interactive execution (no approval prompts)
-CMD_ARGS+=("--yolo")
-
-# Add the prompt
+CMD_ARGS+=("--sandbox" "read-only")
 CMD_ARGS+=("$REVIEW_PROMPT")
 
-# Call codex in non-interactive exec mode
+# Call codex with read-only sandbox
 codex "${CMD_ARGS[@]}"

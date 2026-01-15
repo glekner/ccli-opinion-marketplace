@@ -57,6 +57,17 @@ ccli-opinion-marketplace/
 - **Script execution**: Scripts use `${CLAUDE_PLUGIN_ROOT}/scripts/*.sh` path variable provided by Claude Code plugin system.
 - **Command arguments**: Use `argument-hint` in YAML frontmatter for optional args; access via `$ARGUMENTS` or `$1`, `$2`.
 
+## Versioning
+
+**IMPORTANT**: When updating commands or scripts, always bump versions in:
+1. The plugin's `plugin.json` (e.g., `cursor-opinion/.claude-plugin/plugin.json`)
+2. The marketplace's `marketplace.json` (`.claude-plugin/marketplace.json`) - update both the marketplace version AND the plugin version in the plugins array
+
+Version files to update:
+- `cursor-opinion/.claude-plugin/plugin.json`
+- `codex-opinion/.claude-plugin/plugin.json`
+- `.claude-plugin/marketplace.json`
+
 ## Plugin Installation (for users)
 
 ```bash
